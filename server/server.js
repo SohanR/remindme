@@ -36,6 +36,25 @@ const reminderSchema = new mongoose.Schema({
 
 const Reminder = new mongoose.model("Reminder", reminderSchema);
 
+
+// API Routes
+
+app.get("/getAllReminder", (req, res) => {
+
+})
+
+app.post("/addReminder", (req, res) => {
+
+})
+
+app.post("/deleteReminder", (req, res) => {
+
+})
+
+app.get("/" , (req, res) =>{
+    res.send("Response from Backend")
+})
+
 // listen and port 
 const PORT = process.env.PORT || 9000;
 app.listen( PORT, () => console.log(`server is running on port ${PORT}`))

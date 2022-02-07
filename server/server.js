@@ -26,6 +26,16 @@ const connectDB = async () => {
 connectDB();
 
 
+//schema
+
+const reminderSchema = new mongoose.Schema({
+    reminderMsg: String,
+    reminderAt:String,
+    isReminded:Boolean
+})
+
+const Reminder = new mongoose.model("Reminder", reminderSchema);
+
 // listen and port 
 const PORT = process.env.PORT || 9000;
 app.listen( PORT, () => console.log(`server is running on port ${PORT}`))

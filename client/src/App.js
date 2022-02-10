@@ -29,8 +29,9 @@ function App() {
   } 
 
   // delete reminder
-  const deleteReminder = () =>{
-
+  const deleteReminder = (id) =>{
+    axios.post("http://localhost:9002/deleteReminder", { id })
+    .then( res => setReminderList(res.data))
   }
 
   return (
@@ -57,14 +58,14 @@ function App() {
         <div className="homepage_body">
           {
             reminderList.map(reminder => (
-              <div className="reminder_card">
+              <div className="reminder_card" key={reminder._id} >
               <h2>{ reminder.reminderMsg }</h2>
               <h3>Remind Me at:</h3>
               {console.log(reminder)}
               <p>{String(new Date(reminder.remindAt.toLocaleString(undefined, {
                 timeZone:"Asia/Dhaka"
               })))}</p>
-              <div className="button" onClick={deleteReminder} >Delete</div>
+              <div className="button" onClick={() => deleteReminder(reminder._id)} >Delete</div>
             </div>
             ))
           }

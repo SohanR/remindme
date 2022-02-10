@@ -19,7 +19,14 @@ const connectDB = async () => {
    await mongoose.connect(process.env.MONGO_URI,{
         useNewUrlParser:true,
         useUnifiedTopology:true
-    }, () => console.log("Database Connected"))
+    }, (err) => {
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log("Database is connected");
+        }
+    })
 
 }
 
@@ -30,11 +37,11 @@ connectDB();
 
 const reminderSchema = new mongoose.Schema({
     reminderMsg: String,
-    reminderAt:String,
+    remindAt:String,
     isReminded:Boolean
 })
 
-const Reminder = new mongoose.model("Reminder", reminderSchema);
+const Reminder = new mongoose.model("reminder", reminderSchema);
 
 // API Routes
 
@@ -51,11 +58,11 @@ app.get("/getAllReminder", (req, res) => {
 })
 
 app.post("/addReminder", (req, res) => {
-    const { reminderMsg, reminderAt } = req.body
+    const { reminderMsg, remindAt } = req.body
 
     const reminder = new Reminder({
         reminderMsg,
-        reminderAt,
+        remindAt,
         isReminded:false
     })
     reminder.save( err => {

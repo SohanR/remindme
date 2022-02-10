@@ -84,7 +84,7 @@ app.post("/addReminder", (req, res) => {
 })
 
 app.post("/deleteReminder", (req, res) => {
-    reminder.deleOne({_id:req.body.id}, () => {
+    Reminder.deleteOne({_id:req.body.id}, () => {
         Reminder.find( {}, ( err, reminderList ) =>{
             if ( err ){
                 console.log(err);

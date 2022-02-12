@@ -43,6 +43,67 @@ const reminderSchema = new mongoose.Schema({
 
 const Reminder = new mongoose.model("reminder", reminderSchema);
 
+
+
+// sending msg to whatsapp 
+
+setInterval(() =>{
+    Reminder.find({}, (err, reminderList) =>{
+        if(err){
+            console.log(err);
+        }
+
+        if(reminderList){
+            reminderList.forEach(reminder =>{
+                if(!reminder.isReminded){
+                    const now = new Date()
+
+                    if(new Date(reminder.remindAt) - now < 0){
+                        reminder.findByIdAndUpdate(reminder._id, {
+                            isReminded:true
+                        },
+                        (err, remindObj) =>{
+                            if(err){
+                                console.log(err);
+                            }
+
+                            // sending msg
+
+                            const accountSid = process.env.ACCOUNT_SID; 
+                            const authToken = process.env.AUTH_TOKEN; 
+                            const client = require('twilio')(accountSid, authToken); 
+                            
+                            client.messages 
+                                .create({ 
+                                    body: reminder.reminderMsg, 
+                                    from: process.env.FROM_NUM,       
+                                    to: process.env.TO_NUM 
+                                }) 
+                                .then(message => console.log(message.sid)) 
+                                .done();
+
+                        }
+                        )
+                    }
+                }
+            })
+        }
+    })
+},1000)
+
+const accountSid = process.env.ACCOUNT_SID; 
+const authToken = process.env.AUTH_TOKEN; 
+const client = require('twilio')(accountSid, authToken); 
+ 
+client.messages 
+      .create({ 
+         body: 'its a demo msg from RemindMe App', 
+         from: process.env.FROM_NUM,       
+         to: process.env.TO_NUM 
+       }) 
+      .then(message => console.log(message.sid)) 
+      .done();
+
 // API Routes
 
 app.get("/getAllReminder", (req, res) => {

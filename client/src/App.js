@@ -48,7 +48,8 @@ function App() {
           dayPlaceholder="DD" 
           yearPlaceholder="YYYY" 
           monthPlaceholder="MM" 
-          minutePlaceholder="mm" />
+          minutePlaceholder="mm"
+          required="true" />
 
           <div className="button" onClick={addReminder} >
             Add Reminder        
@@ -62,9 +63,13 @@ function App() {
               <h2>{ reminder.reminderMsg }</h2>
               <h3>Remind Me at:</h3>
               {console.log(reminder)}
-              <p>{String(new Date(reminder.remindAt.toLocaleString(undefined, {
-                timeZone:"Asia/Dhaka"
-              })))}</p>
+              
+              <p>
+                {String(new Date(reminder.remindAt.toLocaleString(undefined, {
+                    timeZone:"Asia/Dhaka"
+                  })))}
+              </p>
+
               <div className="button" onClick={() => deleteReminder(reminder._id)} >Delete</div>
             </div>
             ))

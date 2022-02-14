@@ -58,8 +58,8 @@ setInterval(() =>{
                 if(!reminder.isReminded){
                     const now = new Date()
 
-                    if(new Date(reminder.remindAt) - now < 0){
-                        reminder.findByIdAndUpdate(reminder._id, {
+                    if((new Date(reminder.remindAt) - now) < 0){
+                        Reminder.findByIdAndUpdate(reminder._id, {
                             isReminded:true
                         },
                         (err, remindObj) =>{
@@ -91,18 +91,9 @@ setInterval(() =>{
     })
 },1000)
 
-const accountSid = process.env.ACCOUNT_SID; 
-const authToken = process.env.AUTH_TOKEN; 
-const client = require('twilio')(accountSid, authToken); 
- 
-client.messages 
-      .create({ 
-         body: 'its a demo msg from RemindMe App', 
-         from: process.env.FROM_NUM,       
-         to: process.env.TO_NUM 
-       }) 
-      .then(message => console.log(message.sid)) 
-      .done();
+
+
+
 
 // API Routes
 
